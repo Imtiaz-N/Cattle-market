@@ -1,0 +1,27 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "1234"
+    }
+  ],
+  "cattle": [
+    {
+      "id": 1,
+      "breed": "Angus",
+      "weight": 1200,
+      "price": 2500,
+      "status": "available",
+      "image": "assets/image/cow-1.jpeg"
+    },
+    {
+      "id": 2,
+      "breed": "Hereford",
+      "weight": 1100,
+      "price": 2300,
+      "status": "available",
+      "image": "assets/image/cow-2.jpeg"
+    }
+  ]
+}
