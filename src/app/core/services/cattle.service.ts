@@ -16,11 +16,15 @@ export class CattleService {
     return this.http.get<Cattle[]>(`${this.apiUrl}/cattle`);
   }
 
-  addCattle(cattle: Cattle): Observable<Cattle> {
-    return this.http.post<Cattle>(this.apiUrl, cattle);
+  addCattle(cattleData: FormData): Observable<Cattle> {
+    return this.http.post<Cattle>(`${this.apiUrl}/cattle`, cattleData);
   }
 
-  updateAvailability(id: number, available: boolean): Observable<Cattle> {
-    return this.http.patch<Cattle>(`${this.apiUrl}/${id}`, { available });
+  updateCattle(id: number, cattleData: FormData): Observable<Cattle> {
+    return this.http.patch<Cattle>(`${this.apiUrl}/cattle/${id}`, cattleData);
+  }
+
+  getCattleById(id: number): Observable<Cattle> {
+    return this.http.get<Cattle>(`${this.apiUrl}/cattle/${id}`);
   }
 }

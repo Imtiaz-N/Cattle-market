@@ -1,0 +1,136 @@
+<h1 class="text-3xl font-bold text-center text-gray-800 mb-8">
+  Add Your Cattle
+</h1>
+<form
+  [formGroup]="cattleForm"
+  (ngSubmit)="onSubmit()"
+  enctype="multipart/form-data"
+  class="max-w-2xl mx-auto mt-8 bg-white p-6 rounded-lg shadow-md"
+>
+  <!-- Breed Field -->
+  <div class="mb-6">
+    <label class="block text-gray-700 text-sm font-bold mb-2">Breed:</label>
+    <input
+      type="text"
+      formControlName="breed"
+      class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      placeholder="Enter breed name"
+    />
+    <div
+      *ngIf="cattleForm.get('breed')?.errors?.['required']"
+      class="text-red-500 text-sm mt-1"
+    >
+      Breed is required
+    </div>
+  </div>
+
+  <!-- Weight and Price Fields - Grid Layout -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <!-- Weight Field -->
+    <div>
+      <label class="block text-gray-700 text-sm font-bold mb-2"
+        >Weight (kg):</label
+      >
+      <input
+        type="number"
+        formControlName="weight"
+        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Enter weight"
+      />
+      <div
+        *ngIf="cattleForm.get('weight')?.errors?.['required']"
+        class="text-red-500 text-sm mt-1"
+      >
+        Weight is required
+      </div>
+    </div>
+
+    <!-- Price Field -->
+    <div>
+      <label class="block text-gray-700 text-sm font-bold mb-2">Price:</label>
+      <input
+        type="number"
+        formControlName="price"
+        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Enter price"
+      />
+      <div
+        *ngIf="cattleForm.get('price')?.errors?.['required']"
+        class="text-red-500 text-sm mt-1"
+      >
+        Price is required
+      </div>
+    </div>
+  </div>
+
+  <!-- Status Field -->
+  <div class="mb-6">
+    <label class="block text-gray-700 text-sm font-bold mb-2">Status:</label>
+    <select
+      formControlName="status"
+      class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+    >
+      <option value="available">Available</option>
+      <option value="sold">Sold</option>
+    </select>
+  </div>
+
+  <!-- Image Upload Field -->
+  <div class="mb-8">
+    <label class="block text-gray-700 text-sm font-bold mb-2">Image:</label>
+    <div class="flex items-center justify-center w-full">
+      <label
+        class="flex flex-col w-full border-2 border-dashed rounded-lg hover:border-gray-400 transition-colors"
+      >
+        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+          <svg
+            class="w-8 h-8 text-gray-400 mb-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+            />
+          </svg>
+          <span class="text-sm text-gray-500" *ngIf="!selectedFile">
+            Click to upload an image
+          </span>
+          <span class="text-sm text-gray-700" *ngIf="selectedFile">
+            {{ selectedFile.name }}
+          </span>
+        </div>
+        <input
+          type="file"
+          (change)="onFileSelect($event)"
+          accept="image/*"
+          class="hidden"
+        />
+      </label>
+    </div>
+    <div
+      *ngIf="!selectedFile && cattleForm.get('image')?.touched"
+      class="text-red-500 text-sm mt-1"
+    >
+      Image is required
+    </div>
+
+    <div class="mt-4" *ngIf="imagePreview">
+      <img [src]="imagePreview" alt="Preview" class="max-h-48 rounded-lg" />
+    </div>
+  </div>
+
+  <!-- Submit Button -->
+  <div class="flex justify-center">
+    <button
+      type="submit"
+      [disabled]="!cattleForm.valid"
+      class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:shadow-outline transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+    >
+      Add Cattle
+    </button>
+  </div>
+</form>

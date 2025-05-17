@@ -6,12 +6,19 @@ const middlewares = jsonServer.defaults();
 const SECRET_KEY = "SECRET_KEY";
 const path = require("path");
 const express = require("express");
+const fileUpload = require("express-fileupload");
 
 server.use("/images", (req, res, next) => {
   express.static(path.join(__dirname, "public"))(req, res, next);
 });
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
+server.use(
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/img/",
+  })
+);
 
 // Login endpoint
 server.post("/auth/login", (req, res) => {
@@ -56,12 +63,81 @@ server.use((req, res, next) => {
   }
 });
 
-// Custom routes if needed
-server.use(
-  jsonServer.rewriter({
-    "/cattle/:id": "/cattle/:id",
-  })
-);
+server.post("/cattle", (req, res) => {
+  if (!req.files || !req.files.image) {
+    return res.status(400).json({ error: "No image uploaded" });
+  }
+
+  const image = req.files.image;
+  const uploadPath = path.join(__dirname, "public/images", image.name);
+
+  image.mv(uploadPath, (err) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+
+    const newCattle = {
+      id: Date.now(),
+      breed: req.body.breed,
+      weight: Number(req.body.weight),
+      price: Number(req.body.price),
+      status: req.body.status,
+      image: `images/${image.name}`,
+    };
+
+    router.db.get("cattle").push(newCattle).write();
+    res.status(201).json(newCattle);
+  });
+});
+
+server.patch("/cattle/:id", (req, res) => {
+  const cattleId = Number(req.params.id);
+  const existingCattle = router.db.get("cattle").find({ id: cattleId }).value();
+
+  if (!existingCattle) {
+    return res.status(404).json({ error: "Cattle not found" });
+  }
+
+  let updatedData = {};
+
+  // Handle file upload if image is being updated
+  if (req.files && req.files.image) {
+    const image = req.files.image;
+    const uploadPath = path.join(__dirname, "public/images", image.name);
+
+    image.mv(uploadPath, (err) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
+
+      updatedData = {
+        breed: req.body.breed,
+        weight: Number(req.body.weight),
+        price: Number(req.body.price),
+        status: req.body.status,
+        image: `images/${image.name}`,
+      };
+
+      router.db
+        .get("cattle")
+        .find({ id: cattleId })
+        .assign(updatedData)
+        .write();
+      res.json(updatedData);
+    });
+  } else {
+    // If no new image, just update other fields
+    updatedData = {
+      breed: req.body.breed,
+      weight: Number(req.body.weight),
+      price: Number(req.body.price),
+      status: req.body.status,
+    };
+
+    router.db.get("cattle").find({ id: cattleId }).assign(updatedData).write();
+    res.json(updatedData);
+  }
+});
 
 server.use(router);
 

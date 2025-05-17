@@ -1,46 +1,61 @@
 <div class="container mx-auto p-4">
-  <h1 class="text-3xl font-bold mb-6 text-gray-800">Cattle List</h1>
-
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <div
-      *ngFor="let cattle of cattleList"
-      class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow"
-    >
-      <img
-        [ngSrc]="cattle.image"
-        [alt]="cattle.breed + ' image'"
-        width="400"
-        height="300"
-        class="w-full h-48 object-cover"
-      />
-
-      <div class="p-6">
-        <div class="flex justify-between items-start mb-4">
-          <h2 class="text-xl font-semibold text-gray-800">
-            {{ cattle.breed }}
-          </h2>
-          <span
-            class="px-3 py-1 rounded-full text-sm font-medium"
-            [ngClass]="{
-              'bg-green-100 text-green-800': cattle.status === 'available',
-              'bg-red-100 text-red-800': cattle.status === 'sold'
-            }"
-          >
-            {{ cattle.status | titlecase }}
-          </span>
-        </div>
-
-        <div class="space-y-2">
-          <p class="text-gray-600">
-            <span class="font-medium">Weight:</span>
-            {{ cattle.weight | number }} lbs
-          </p>
-          <p class="text-gray-600">
-            <span class="font-medium">Price:</span>
-            ${{ cattle.price | number }}
-          </p>
-        </div>
-      </div>
-    </div>
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-gray-800">Cattle List</h1>
+    <button
+      pButton
+      icon="pi pi-plus"
+      label="Add Cattle"
+      class="border p-2 rounded-md bg-sky-500 text-white"
+      routerLink="/cattle/add"
+    ></button>
   </div>
+
+  <p-table
+    [value]="cattleList"
+    [rows]="10"
+    [paginator]="true"
+    responsiveLayout="scroll"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Breed</th>
+        <th>Image</th>
+        <th>Weight</th>
+        <th>Price</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-cattle>
+      <tr>
+        <td class="font-semibold">{{ cattle.breed }}</td>
+        <td>
+          <img
+            [ngSrc]="cattle.image"
+            [alt]="cattle.breed + ' image'"
+            width="100"
+            height="75"
+            class="rounded-lg object-cover h-[75px] w-[100px]"
+          />
+        </td>
+        <td>{{ cattle.weight | number }} lbs</td>
+        <td>{{ (cattle.price | number) || "0" | bdt }}</td>
+        <td>
+          <p-tag
+            [value]="cattle.status | titlecase"
+            [severity]="cattle.status === 'available' ? 'success' : 'danger'"
+          >
+          </p-tag>
+        </td>
+        <td>
+          <button
+            pButton
+            icon="pi pi-pencil"
+            class="p-button-warning p-button-sm"
+            (click)="editCattle(cattle.id)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
 </div>

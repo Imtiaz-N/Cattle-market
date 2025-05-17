@@ -5,11 +5,25 @@ import { CommonModule } from '@angular/common';
 import { NgOptimizedImage } from '@angular/common';
 import { AlertService } from '../../services/alert.service';
 import { environment } from '../../../environments/environment';
+import { BdtPipe } from '../../shared/pipes/bdt.pipe';
+import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { ButtonModule } from 'primeng/button';
+import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cattle-list',
   standalone: true,
-  imports: [CommonModule, NgOptimizedImage],
+  imports: [
+    CommonModule,
+    NgOptimizedImage,
+    BdtPipe,
+    TableModule,
+    TagModule,
+    ButtonModule,
+    RouterModule,
+  ],
   templateUrl: './cattle-list.component.html',
   styleUrl: './cattle-list.component.scss',
 })
@@ -18,7 +32,8 @@ export class CattleListComponent implements OnInit {
   isLoading = true;
   constructor(
     private cattleService: CattleService,
-    private alert: AlertService
+    private alert: AlertService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -48,5 +63,8 @@ export class CattleListComponent implements OnInit {
         console.error('Error fetching cattle:', err);
       },
     });
+  }
+  editCattle(id: number): void {
+    this.router.navigate(['/cattle/edit', id]);
   }
 }
