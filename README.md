@@ -50,6 +50,11 @@ cd ..
 ng serve
 Access application at http://localhost:4200
 
+---if hosted json serve get cross error please run the json server locally.
+
+a separate repo for the json server also give in addition. if want run it separtely.https://github.com/Imtiaz-N/json-server-cattle-api
+--not recommanded. run the folder which is inside the angular project folder
+
 Option 2: Live Backend (Render Hosting)
 
 Use Production API:
