@@ -4,7 +4,12 @@ const server = jsonServer.create();
 const router = jsonServer.router("db.json");
 const middlewares = jsonServer.defaults();
 const SECRET_KEY = "SECRET_KEY";
+const path = require("path");
+const express = require("express");
 
+server.use("/images", (req, res, next) => {
+  express.static(path.join(__dirname, "public"))(req, res, next);
+});
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
@@ -30,7 +35,11 @@ server.post("/auth/logout", (req, res) => {
 
 // JWT verification middleware
 server.use((req, res, next) => {
-  if (req.path === "/auth/login" || req.path === "/auth/logout") {
+  if (
+    req.path === "/auth/login" ||
+    req.path === "/auth/logout" ||
+    req.path.startsWith("/images")
+  ) {
     return next();
   }
 

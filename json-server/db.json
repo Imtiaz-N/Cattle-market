@@ -13,7 +13,7 @@
       "weight": 1200,
       "price": 2500,
       "status": "available",
-      "image": "assets/image/cow-1.jpeg"
+      "image": "images/cow-1.jpeg"
     },
     {
       "id": 2,
@@ -21,7 +21,7 @@
       "weight": 1100,
       "price": 2300,
       "status": "available",
-      "image": "assets/image/cow-2.jpeg"
+      "image": "images/cow-2.jpeg"
     }
   ]
 }

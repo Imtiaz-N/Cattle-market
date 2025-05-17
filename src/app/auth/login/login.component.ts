@@ -8,6 +8,7 @@ import {
 
 import { RouterLink, Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-login',
@@ -22,18 +23,24 @@ export class LoginComponent {
     password: new FormControl('', Validators.required),
   });
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    private alert: AlertService
+  ) {}
 
   onSubmit() {
     this.auth
       .login(this.loginForm.value.username!, this.loginForm.value.password!)
       .subscribe({
         next: () => {
-          console.log('login success');
+          this.alert.success('Login successful!');
           this.router.navigate(['/cattle']);
         },
 
-        error: (err) => alert(err.message),
+        error: (err) => {
+          this.alert.error(err.message);
+        },
       });
   }
 }

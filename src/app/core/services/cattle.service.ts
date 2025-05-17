@@ -13,7 +13,7 @@ export class CattleService {
   constructor(private http: HttpClient) {}
 
   getAllCattle(): Observable<Cattle[]> {
-    return this.http.get<Cattle[]>(this.apiUrl);
+    return this.http.get<Cattle[]>(`${this.apiUrl}/cattle`);
   }
 
   addCattle(cattle: Cattle): Observable<Cattle> {
