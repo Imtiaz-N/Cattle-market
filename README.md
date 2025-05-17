@@ -34,6 +34,8 @@ npm install --legacy-peer-deps
 DEVELOPMENT SETUP
 
 Option 1: Local Backend (Recommended for Development)
+for login -- user:admin
+-- pasword: 1234
 
 Start JSON Server:
 cd json-server
@@ -51,6 +53,9 @@ ng serve
 Access application at http://localhost:4200
 
 Option 2: Live Backend (Render Hosting)
+
+for login -- user:admin
+-- pasword: 1234
 
 Use Production API:
 Open src/environments/environment.ts
