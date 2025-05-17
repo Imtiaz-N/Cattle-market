@@ -1,0 +1,69 @@
+<div class="h-screen flex flex-col">
+  <!-- Sidebar -->
+  <aside
+    [ngClass]="{
+      'translate-x-0': sidebarService.isOpen$ | async,
+      '-translate-x-full': !(sidebarService.isOpen$ | async)
+    }"
+    class="fixed top-0 left-0 h-full w-64 bg-slate-600 text-white transition-transform duration-300 z-50 overflow-hidden"
+  >
+    <nav class="p-4 space-y-2 mt-8">
+      <a
+        routerLink="/cattle"
+        class="block p-2 hover:bg-slate-900 rounded transition-colors space-x-1"
+      >
+        <i class="pi pi-list"></i>
+        <span>Cattle List</span></a
+      >
+      <a
+        routerLink="/cattle/add"
+        class="block p-2 hover:bg-slate-900 rounded transition-colors space-x-1"
+        ><i class="pi pi-plus-circle"></i> <span>Add New Cattle</span></a
+      >
+    </nav>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div
+    class="flex-1 flex flex-col transition-all duration-300"
+    [style.marginLeft]="(sidebarService.isOpen$ | async) ? '16rem' : '0'"
+  >
+    <!-- Top Bar -->
+    <header
+      class="bg-gray-200 text-gray-600 p-2 flex justify-between items-center"
+    >
+      <div class="flex items-center space-x-4">
+        <button
+          (click)="sidebarService.toggle()"
+          class="text-gray-700 hover:bg-gray-300 p-1 rounded"
+        >
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
+        <span class="text-xl font-bold">LOGO</span>
+      </div>
+      <button
+        (click)="logout()"
+        class="hover:bg-gray-300 px-4 py-2 rounded transition-colors"
+      >
+        Logout
+      </button>
+    </header>
+
+    <!-- Content -->
+    <main class="flex-1 overflow-auto bg-gray-100 p-6">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
