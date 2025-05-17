@@ -1,27 +1,95 @@
-# CattleMarketManagement
+CATTLE MARKET MANAGEMENT APPLICATION
+An Angular-based application for managing cattle market data, integrated with a JSON-server backend for mock API interactions.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.9.
+FEATURES
 
-## Development server
+Manage cattle listings and market data
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+CRUD operations for cattle records
 
-## Code scaffolding
+Local development with mock backend
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Production deployment capabilities
 
-## Build
+PREREQUISITES
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Node.js v18+
 
-## Running unit tests
+Angular CLI v18.2.9+
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+npm v9+
 
-## Running end-to-end tests
+GETTING STARTED
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Clone Repository:
+git clone https://github.com/Imtiaz-N/Cattle-market
+cd CattleMarketManagement
 
-## Further help
+Install Dependencies:
+npm install
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+If encountering peer dependency issues:
+npm install --legacy-peer-deps
+
+DEVELOPMENT SETUP
+
+Option 1: Local Backend (Recommended for Development)
+
+Start JSON Server:
+cd json-server
+npm start
+(Backend runs at http://localhost:3000)
+
+Configure Frontend:
+Open src/environments/environment.ts
+Set API URL to:
+apiUrl: 'http://localhost:3000'
+
+Run Angular Application:
+cd ..
+ng serve
+Access application at http://localhost:4200
+
+Option 2: Live Backend (Render Hosting)
+
+Use Production API:
+Open src/environments/environment.ts
+Set API URL to:
+apiUrl: 'https://json-server-cattle-api.onrender.com'
+
+Run Angular Application:
+ng serve
+
+NOTE: The live backend uses Render's free tier which may take 30-60 seconds to respond initially due to server spin-up time.
+
+DEPLOYMENT
+
+Build for Production:
+ng build --configuration=production
+
+Deploy JSON Server:
+
+Push db.json to Git repository
+
+Create new Web Service on Render.com
+
+Set build command: npm install && npm start
+
+PROJECT STRUCTURE
+src/ - Angular source code
+json-server/ - Mock backend configuration
+db.json - Database template
+server.js - Server configuration
+environments/ - API configuration
+angular.json - Angular configuration
+
+TROUBLESHOOTING
+
+Q: Backend requests are slow with live URL
+A: Normal for Render's free tier. Wait 45-60 seconds for server wake-up
+
+Q: Dependency installation errors
+A: Try:
+npm cache clean --force
+rm -rf node_modules/
+npm install --legacy-peer-deps

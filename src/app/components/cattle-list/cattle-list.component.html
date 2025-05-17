@@ -5,6 +5,7 @@
       pButton
       icon="pi pi-plus"
       label="Add Cattle"
+      title="Add new cattle"
       class="border p-2 rounded-md bg-sky-500 text-white"
       routerLink="/cattle/add"
     ></button>
@@ -33,6 +34,7 @@
           <img
             [ngSrc]="cattle.image"
             [alt]="cattle.breed + ' image'"
+            [title]="cattle.breed + ' image'"
             width="100"
             height="75"
             class="rounded-lg object-cover h-[75px] w-[100px]"
@@ -51,6 +53,7 @@
           <button
             pButton
             icon="pi pi-pencil"
+            title="Edit cattle"
             class="p-button-warning p-button-sm"
             (click)="editCattle(cattle.id)"
           ></button>
